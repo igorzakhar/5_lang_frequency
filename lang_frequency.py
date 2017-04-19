@@ -1,3 +1,4 @@
+import re
 import os
 import sys
 import string
@@ -11,13 +12,16 @@ def load_data(filepath):
 
 def remove_punctuation(text):
     """ This code remove punctuation mark from text"""
-    punct = set(string.punctuation)
-    sans_punct = ''.join(symbl for symbl in text if symbl not in punct)
-    return sans_punct # return list all words from text
+    regex = re.compile('[{}]'.format(re.escape(string.punctuation)))
+    clean_text = regex.sub('', text)
+    return clean_text
 
 def get_most_frequent_words(text):
     return Counter(text.lower().split()).most_common(10)
 
+def print_results(results):
+    for word in results:
+        print(word[0],'=', word[1])
 
 if __name__ == '__main__':
 
@@ -26,10 +30,7 @@ if __name__ == '__main__':
         text_from_file = load_data(filepath)
         clean_text = remove_punctuation(text_from_file)
         most_frequent_words = get_most_frequent_words(clean_text)
-        
-        for word in most_frequent_words:
-            print(word[0],'=', word[1])
+        print_results(most_frequent_words)
     else:
         print("File not found.")
         print("Example launch: python lang_frequency.py <filename>")
-
