@@ -17,7 +17,8 @@ def remove_punctuation(text):
     return clean_text
 
 def get_most_frequent_words(text):
-    return Counter(text.lower().split()).most_common(10)
+    top_words = 10
+    return Counter(text.lower().split()).most_common(top_words)
 
 def print_results(results):
     for word in results:
